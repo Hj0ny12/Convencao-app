@@ -97,7 +97,7 @@ export function VoteButton({
         aria-label={`Votar, ${voteCount} votos`}
         disabled={disabled || pending || !deviceId}
         onClick={onPress}
-        className="min-h-11 min-w-16 tabular-nums"
+        className="min-h-11 min-w-24 tabular-nums"
       >
         ▲ {voteCount}
       </Button>

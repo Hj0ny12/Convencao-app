@@ -6,7 +6,7 @@ export function EventShell({ children }: { children: React.ReactNode }) {
       <header className="px-4 pt-5 pb-2 text-sm font-medium">
         FI Group Convention 2026
       </header>
-      <main className="flex-1 px-4 pb-24">{children}</main>
+      <main className="flex-1 px-4 pb-28">{children}</main>
       <BottomNav />
     </div>
   );
