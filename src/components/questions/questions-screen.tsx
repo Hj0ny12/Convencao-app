@@ -64,10 +64,22 @@ export function QuestionsScreen() {
         />
       ) : null}
       {questions.length === 0 && speaker.sessionStatus === "OPEN" ? (
-        <QuestionList firstName={firstName} questions={[]} />
+        <QuestionList
+          firstName={firstName}
+          speakerSlug={speaker.slug}
+          deviceId={deviceId}
+          votingEnabled
+          questions={[]}
+        />
       ) : null}
       {questions.length > 0 ? (
-        <QuestionList firstName={firstName} questions={questions} />
+        <QuestionList
+          firstName={firstName}
+          speakerSlug={speaker.slug}
+          deviceId={deviceId}
+          votingEnabled={speaker.sessionStatus !== "FINISHED"}
+          questions={questions}
+        />
       ) : null}
     </div>
   );

@@ -84,20 +84,32 @@ export const listBySpeaker = query({
       .withIndex("by_speaker", (q) => q.eq("speakerId", speaker._id))
       .collect();
 
-    return rows
-      .filter(
-        (
-          row,
-        ): row is typeof row & { status: "visible" | "answered" } =>
-          row.status === "visible" || row.status === "answered",
-      )
-      .sort((a, b) => a.createdAt - b.createdAt)
-      .map((row) => ({
-        _id: row._id,
-        text: row.text,
-        status: row.status,
-        createdAt: row.createdAt,
-        isMine: Boolean(args.deviceId) && row.deviceId === args.deviceId,
-      }));
+    const visible = rows.filter(
+      (row): row is typeof row & { status: "visible" | "answered" } =>
+        row.status === "visible" || row.status === "answered",
+    );
+    const withVotes = await Promise.all(
+      visible.map(async (row) => {
+        const votes = await ctx.db
+          .query("votes")
+          .withIndex("by_question", (q) => q.eq("questionId", row._id))
+          .collect();
+        return {
+          _id: row._id,
+          text: row.text,
+          status: row.status,
+          createdAt: row.createdAt,
+          isMine: Boolean(args.deviceId) && row.deviceId === args.deviceId,
+          voteCount: votes.length,
+          votedByMe:
+            Boolean(args.deviceId) &&
+            votes.some((vote) => vote.deviceId === args.deviceId),
+        };
+      }),
+    );
+    withVotes.sort(
+      (a, b) => b.voteCount - a.voteCount || a.createdAt - b.createdAt,
+    );
+    return withVotes;
   },
 });
