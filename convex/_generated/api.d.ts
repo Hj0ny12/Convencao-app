@@ -10,6 +10,7 @@
 
 import type * as constants from "../constants.js";
 import type * as eventState from "../eventState.js";
+import type * as questions from "../questions.js";
 import type * as speakers from "../speakers.js";
 
 import type {
@@ -21,6 +22,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   constants: typeof constants;
   eventState: typeof eventState;
+  questions: typeof questions;
   speakers: typeof speakers;
 }>;
 
