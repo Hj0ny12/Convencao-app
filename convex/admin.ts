@@ -149,6 +149,28 @@ export const setQuestionStatus = mutation({
   },
 });
 
+export const setAfterUnlocked = mutation({
+  args: {
+    sessionToken: v.string(),
+    afterUnlocked: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    await assertSession(args.sessionToken);
+    const existing = await ctx.db.query("eventState").first();
+    if (!existing) {
+      await ctx.db.insert("eventState", {
+        afterUnlocked: args.afterUnlocked,
+        updatedAt: Date.now(),
+      });
+      return;
+    }
+    await ctx.db.patch(existing._id, {
+      afterUnlocked: args.afterUnlocked,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
 export const setSessionStatus = mutation({
   args: {
     sessionToken: v.string(),

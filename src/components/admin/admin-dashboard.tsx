@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
+import { toast } from "sonner";
 import { api } from "../../../convex/_generated/api";
 import { useAdminSessionToken } from "@/components/admin/admin-convex-provider";
 import { SpeakerSummary } from "@/components/admin/speaker-summary";
+import { Button } from "@/components/ui/button";
 
 export function AdminDashboard() {
   const sessionToken = useAdminSessionToken();
@@ -12,6 +15,25 @@ export function AdminDashboard() {
     api.admin.summary,
     sessionToken ? { sessionToken } : "skip",
   );
+  const eventState = useQuery(api.eventState.get);
+  const setAfterUnlocked = useMutation(api.admin.setAfterUnlocked);
+  const [pending, setPending] = useState(false);
+  const unlocked = eventState?.afterUnlocked ?? false;
+
+  async function toggleAfter() {
+    if (!sessionToken || pending) return;
+    setPending(true);
+    try {
+      await setAfterUnlocked({
+        sessionToken,
+        afterUnlocked: !unlocked,
+      });
+    } catch {
+      toast.error("Não conseguimos concluir esta ação. Tenta novamente.");
+    } finally {
+      setPending(false);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -30,6 +52,15 @@ export function AdminDashboard() {
         </div>
       </div>
       {summary === undefined ? <p>A carregar…</p> : null}
+      <p>{unlocked ? "After desbloqueado" : "After bloqueado"}</p>
+      <Button
+        type="button"
+        className="min-h-11"
+        disabled={pending || eventState === undefined}
+        onClick={toggleAfter}
+      >
+        {unlocked ? "Bloquear After" : "Desbloquear After"}
+      </Button>
       {summary?.map((speaker) => (
         <SpeakerSummary
           key={speaker.slug}

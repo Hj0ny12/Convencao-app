@@ -4,13 +4,7 @@ export const get = query({
   args: {},
   handler: async (ctx) => {
     const row = await ctx.db.query("eventState").first();
-    if (!row) {
-      return { afterUnlocked: false, updatedAt: 0 };
-    }
-    return {
-      afterUnlocked: row.afterUnlocked,
-      updatedAt: row.updatedAt,
-    };
+    return { afterUnlocked: row?.afterUnlocked ?? false };
   },
 });
 
