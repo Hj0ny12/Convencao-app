@@ -89,6 +89,52 @@ export const moderation = query({
   },
 });
 
+export const liveQuestions = query({
+  args: {
+    sessionToken: v.string(),
+    speakerSlug: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await assertSession(args.sessionToken);
+    const speaker = await ctx.db
+      .query("speakers")
+      .withIndex("by_slug", (q) => q.eq("slug", args.speakerSlug))
+      .unique();
+    if (!speaker) return null;
+    const questions = await ctx.db
+      .query("questions")
+      .withIndex("by_speaker", (q) => q.eq("speakerId", speaker._id))
+      .collect();
+    const visible = [];
+    for (const question of questions) {
+      if (question.status === "hidden") continue;
+      const votes = await ctx.db
+        .query("votes")
+        .withIndex("by_question", (q) => q.eq("questionId", question._id))
+        .collect();
+      visible.push({
+        text: question.text,
+        status: question.status,
+        voteCount: votes.length,
+        createdAt: question.createdAt,
+      });
+    }
+    visible.sort(
+      (a, b) => b.voteCount - a.voteCount || a.createdAt - b.createdAt,
+    );
+    return {
+      name: speaker.name,
+      sessionStatus: speaker.sessionStatus,
+      questions: visible.slice(0, 10).map((question, index) => ({
+        rank: index + 1,
+        text: question.text,
+        voteCount: question.voteCount,
+        status: question.status,
+      })),
+    };
+  },
+});
+
 export const setQuestionStatus = mutation({
   args: {
     sessionToken: v.string(),

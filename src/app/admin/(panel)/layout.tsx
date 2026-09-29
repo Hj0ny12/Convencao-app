@@ -14,7 +14,7 @@ export default async function AdminPanelLayout({
   return (
     <AdminConvexProvider sessionToken={sessionToken}>
       <Toaster />
-      <div className="dark mx-auto flex min-h-full w-full max-w-3xl flex-col gap-6 bg-background px-4 py-6 text-foreground">
+      <div className="dark mx-auto flex min-h-full w-full max-w-5xl flex-col gap-6 bg-background px-6 py-6 text-foreground">
         {children}
         <form action={logout}>
           <Button type="submit" variant="outline" className="min-h-11">

@@ -17,9 +17,14 @@ export function AdminDashboard() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">Admin</h1>
-        <Link href="/admin/questions" className="min-h-11 underline">
-          Moderar perguntas
-        </Link>
+        <div className="flex gap-4">
+          <Link href="/admin/live" className="min-h-11 underline">
+            Vista live
+          </Link>
+          <Link href="/admin/questions" className="min-h-11 underline">
+            Moderar perguntas
+          </Link>
+        </div>
       </div>
       {summary === undefined ? <p>A carregar…</p> : null}
       {summary?.map((speaker) => (
