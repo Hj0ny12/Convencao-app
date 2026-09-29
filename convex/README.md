@@ -1,8 +1,8 @@
 # Convex database
 
-The Convex project is **not linked**. There is no deployment URL, no deploy key, and no `.env.local`.
+Convex does not use SQL migration files. `schema.ts` is the database. `npx convex dev` pushes it and refreshes `convex/_generated`.
 
-Convex does not use SQL migration files. `schema.ts` is the database. When a project is linked later, `npx convex dev` creates the tables and indexes from that file and generates `convex/_generated`. Do not create `_generated` by hand.
+The dev deployment is selected in `.env.local`, which is gitignored. Do not commit that file or a deploy key.
 
 ## Tables
 
