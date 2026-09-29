@@ -31,6 +31,39 @@ export const submit = mutation({
   },
 });
 
+export const cloud = query({
+  args: {},
+  handler: async (ctx) => {
+    const rows = await ctx.db.query("words").collect();
+    const groups = new Map<
+      string,
+      { displayWord: string; count: number; createdAt: number }
+    >();
+    for (const row of rows) {
+      const current = groups.get(row.normalizedWord);
+      if (!current) {
+        groups.set(row.normalizedWord, {
+          displayWord: row.displayWord,
+          count: 1,
+          createdAt: row.createdAt,
+        });
+        continue;
+      }
+      current.count += 1;
+      if (row.createdAt < current.createdAt) {
+        current.displayWord = row.displayWord;
+        current.createdAt = row.createdAt;
+      }
+    }
+    return [...groups.values()]
+      .map(({ displayWord, count }) => ({ displayWord, count }))
+      .sort(
+        (a, b) =>
+          b.count - a.count || a.displayWord.localeCompare(b.displayWord, "pt"),
+      );
+  },
+});
+
 export const mine = query({
   args: { deviceId: v.string() },
   handler: async (ctx, args) => {

@@ -21,6 +21,9 @@ export function AdminDashboard() {
           <Link href="/admin/live" className="min-h-11 underline">
             Vista live
           </Link>
+          <Link href="/admin/words" className="min-h-11 underline">
+            Palavras
+          </Link>
           <Link href="/admin/questions" className="min-h-11 underline">
             Moderar perguntas
           </Link>
