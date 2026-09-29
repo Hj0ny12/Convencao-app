@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as admin from "../admin.js";
 import type * as constants from "../constants.js";
 import type * as eventState from "../eventState.js";
 import type * as questions from "../questions.js";
@@ -21,6 +22,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admin: typeof admin;
   constants: typeof constants;
   eventState: typeof eventState;
   questions: typeof questions;
