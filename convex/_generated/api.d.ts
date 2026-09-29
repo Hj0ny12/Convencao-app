@@ -14,6 +14,7 @@ import type * as eventState from "../eventState.js";
 import type * as questions from "../questions.js";
 import type * as speakers from "../speakers.js";
 import type * as votes from "../votes.js";
+import type * as words from "../words.js";
 
 import type {
   ApiFromModules,
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   questions: typeof questions;
   speakers: typeof speakers;
   votes: typeof votes;
+  words: typeof words;
 }>;
 
 /**
