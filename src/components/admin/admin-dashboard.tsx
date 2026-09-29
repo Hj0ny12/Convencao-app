@@ -39,7 +39,15 @@ export function AdminDashboard() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">Admin</h1>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap justify-end gap-x-4 gap-y-1">
+          <Link
+            href="/entrada"
+            className="min-h-11 underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Código QR
+          </Link>
           <Link href="/admin/live" className="min-h-11 underline">
             Vista live
           </Link>
