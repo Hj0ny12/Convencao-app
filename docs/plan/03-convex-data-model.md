@@ -1,6 +1,6 @@
 # Commit 03 — Convex data model
 
-**Status:** not started  
+**Status:** schema and seed are in `convex/`. The Convex deployment is not configured. Do not run `npx convex dev` until `NEXT_PUBLIC_CONVEX_URL` and a deploy key or login exist. `_generated` is created by that command, not by hand.  
 **Commit message:** `feat: configure convex data model`  
 **Read first:** this file, after commit 02 is green
 

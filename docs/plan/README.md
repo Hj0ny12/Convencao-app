@@ -18,6 +18,7 @@ Source of truth for behavior: the PRD. These files turn that PRD into code slice
 
 - Next.js App Router, TypeScript, Tailwind, `src/` directory.
 - Convex is the backend and the realtime source. No Redis, no custom WebSocket server, no separate API service.
+- The Convex cloud project stays unlinked until a deploy key or `npx convex login` exists. The database definition is already in `convex/schema.ts`. There is no SQL migration folder. Linking later pushes that schema.
 - UI primitives are shadcn/ui (Radix base), copied into `src/components/ui` by the CLI. Compose event screens from those primitives. Do not add a second component library.
 - Motion is CSS, then the Web Animations API. No animation library unless a later file says so.
 - Participants have no login. `crypto.randomUUID()` stored in `localStorage` under `fi-convention-device-id`.
