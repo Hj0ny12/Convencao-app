@@ -1,6 +1,6 @@
 # Commit 14 — Harden convention flows
 
-**Status:** not started  
+**Status:** done. `npm test` and `npm run build` passed. Manual device and two-browser checks were not run in this environment.  
 **Commit message:** `test: harden convention flows`  
 **Read first:** this file, after commit 13 is green
 
